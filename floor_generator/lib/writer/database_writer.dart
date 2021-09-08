@@ -93,12 +93,16 @@ class DatabaseWriter implements Writer {
       ..name = 'callback'
       ..type = refer('Callback?'));
 
+    final passwordParameter = Parameter((builder) => builder
+      ..name = 'password'
+      ..type = refer('String?'));
+
     return Method((builder) => builder
       ..name = 'open'
       ..returns = refer('Future<sqflite.Database>')
       ..modifier = MethodModifier.async
       ..requiredParameters.addAll([pathParameter, migrationsParameter])
-      ..optionalParameters.add(callbackParameter)
+      ..optionalParameters.addAll([callbackParameter, passwordParameter])
       ..body = Code('''
           final databaseOptions = sqflite.OpenDatabaseOptions(
             version: ${database.version},
